@@ -1,3 +1,4 @@
+import math
 def game_dict():
     return {
         "home": {
@@ -182,3 +183,70 @@ def game_dict():
             ]
         }
     }
+game_obj = game_dict()
+
+def num_points_per_game(player_name):
+    for team in game_obj:
+        for player in game_obj[team]["players"]:
+            if player_name == player["name"]:
+                return player["points_per_game"]
+    pass
+
+def player_age(player_name):
+    for team in game_obj:
+        for player in game_obj[team]["players"]:
+            if player_name == player["name"]:
+                return player["age"]
+    pass
+
+def team_colors(team_name):
+    for team in game_obj:
+        if team_name == game_obj[team]["team_name"]:
+            return game_obj[team]["colors"]
+    pass
+
+def team_names():
+    team_names = []
+
+    for team in game_obj:
+        team_names.append(game_obj[team]["team_name"])
+
+    return team_names
+
+def player_numbers(team_name):
+    jersey_list = []
+    for team in game_obj:
+        if team_name == game_obj[team]["team_name"]:
+            for player in game_obj[team]["players"]:
+                jersey_list.append(player["number"])
+
+    return jersey_list
+
+def player_stats(player_name):
+    for team in game_obj:
+        for player in game_obj[team]["players"]:
+            if player_name == player["name"]:
+                return player
+    pass
+
+def average_rebounds_by_shoe_brand():
+    # create a dict of shoe brands 
+    brands = {}
+    # append the rebounds for playes with th same shoe brands 
+    for team in game_obj:
+        for player in game_obj[team]["players"]:
+            if player["shoe_brand"] in list(brands.keys()):
+                brands[player["shoe_brand"]].append(player["rebounds_per_game"])
+            else:
+                brands.update({player["shoe_brand"] : [player["rebounds_per_game"]]})
+    #print(brands)
+    # get an average
+    for brand in brands:
+        total = 0
+        for rebound in brands[brand]:
+            total += rebound
+        average = round(total/len(brands[brand]),2)
+        brands[brand] = format(average,'.2f')
+        print(f"{brand}:  {format(average,'.2f')}")
+
+average_rebounds_by_shoe_brand()
